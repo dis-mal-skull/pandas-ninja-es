@@ -8,7 +8,7 @@
 
 <ToolBar>
   <div class="flex items-center h-full flex-row justify-between p-2">
-    <h2>Consola</h2>
+    <h2>Mensajes</h2>
     <button class="btn  btn-sm" on:click={() => (code = "")}> Limpiar </button>
   </div>
 </ToolBar>

@@ -55,5 +55,6 @@
       "fruits_orange": 0,
       "fruits_tomatoe": 0
     }
-  ]
+  ],
+  "hint": "Convierte las categorías en columnas de 0 y 1:  pd.get_dummies(df)"
 }

@@ -9,6 +9,7 @@
   import Drawer from "./Drawer.svelte";
   import VictoryDialog from "./VictoryDialog.svelte";
   import LoadingDialog from "./LoadingDialog.svelte";
+  import HelpDialog from "./HelpDialog.svelte";
 
   // Versión de la app inyectada por Vite (ver vite.config.ts)
   declare const __APP_VERSION__: string;
@@ -33,6 +34,7 @@
     title: string;
     author: string;
     placeholder?: string;
+    hint?: string;
     input: Array<Object>;
     expected: Array<Object>;
   }
@@ -72,7 +74,7 @@
   let loading: boolean = true;
 
   // Loading message
-  let loadingMessage: string = "Cargando tu Sensei 🥷";
+  let loadingMessage: string = "Preparando todo... 🐼";
 
   // display Win modal box
   let won: boolean = false;
@@ -85,6 +87,9 @@
 
   // Drawer pen
   let show_drawer: boolean = false;
+
+  // ¿Está abierta la ventana de ayuda "¿Cómo se juega?"
+  let helpOpen: boolean = false;
 
   // Computed dataframe
   let computed_input: any = [];
@@ -115,7 +120,7 @@
   // Load all challenges from challenges.json
   // ------------------------------------------------------
   async function loadChallenges() {
-    loadingMessage = "Cargando retos";
+    loadingMessage = "Cargando los retos";
 
     challenges = [];
     try {
@@ -182,7 +187,7 @@
   async function loadPython() {
     loading = true;
 
-    loadingMessage = "Cargando Pyodide...";
+    loadingMessage = "Cargando Python y pandas... 🐼 (la primera vez tarda un poco)";
 
     pyodide = await loadPyodide({
       stdout: (text: string) => appendConsole(text),
@@ -197,7 +202,7 @@
     appendConsole(python_version);
 
     // Load Pandas
-    loadingMessage = "Cargando Pandas";
+    loadingMessage = "Cargando pandas... 🐼";
     await pyodide.loadPackage(["pandas"]);
 
     // import pandas.. It takes times
@@ -215,6 +220,12 @@
 
     challengeIndex = 0;
     loading = false;
+
+    // La primera vez mostramos la ayuda para saber cómo se juega.
+    if (!localStorage.getItem("pandas_ninja_help_seen")) {
+      helpOpen = true;
+      localStorage.setItem("pandas_ninja_help_seen", "1");
+    }
   }
 
   // ------------------------------------------------------
@@ -246,7 +257,7 @@
 
       if (code.includes("DataFrame(") || code.includes("Series(")) {
         appendConsole(
-          "No puedes crear un DataFrame ni una Series.\nBusca otra forma de resolverlo."
+          "Para que sea más fácil, no hace falta crear una tabla desde cero.\nIntenta transformar la tabla que ya tienes con métodos, por ejemplo: df.head(3)"
         );
         return;
       }
@@ -326,6 +337,7 @@
 <!-- Modal Dialog  -->
 <LoadingDialog {loading} message={loadingMessage} />
 <VictoryDialog show={won} {score} {expressionCount} on:next={nextLevel} />
+<HelpDialog bind:show={helpOpen} />
 
 <Drawer show={show_drawer}>
   <svelte:fragment slot="content">
@@ -333,6 +345,7 @@
       on:left={previousLevel}
       on:right={nextLevel}
       on:menu={() => (show_drawer = !show_drawer)}
+      on:help={() => (helpOpen = true)}
       title={challenge?.title}
       level={challenge?.level}
       rating={challenge?.rating}
@@ -340,11 +353,16 @@
     />
 
     <Grid>
-      <CodeEditor slot="a" on:run={runCode} bind:code />
+      <CodeEditor
+        slot="a"
+        on:run={runCode}
+        bind:code
+        hint={challengeDetail?.hint ?? ""}
+      />
       <Console bind:code={consoleOutput} slot="b" />
-      <DataFrame title="Datos de entrada" slot="c" data={computed_input_str} />
+      <DataFrame title="Tu tabla" slot="c" data={computed_input_str} />
       <DataFrame
-        title="Datos esperados"
+        title="Tabla objetivo"
         slot="d"
         data={challengeDetail?.expected}
       />

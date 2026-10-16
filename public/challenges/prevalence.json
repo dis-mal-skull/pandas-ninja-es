@@ -28,7 +28,7 @@
 			"k": "0"
 		},
 		{
-			"user": "Jean-Fran\u00e7oise",
+			"user": "Jean-Françoise",
 			"x": "0",
 			"y": "0",
 			"z": "4",
@@ -36,7 +36,7 @@
 			"k": "0"
 		},
 		{
-			"user": "M\u2019Rodz",
+			"user": "M’Rodz",
 			"x": "0",
 			"y": "0",
 			"z": "5",
@@ -78,12 +78,13 @@
 			"k": "0"
 		},
 		{
-			"user": "M\u2019Rodz",
+			"user": "M’Rodz",
 			"x": "0",
 			"y": "0",
 			"z": "5",
 			"h": "5",
 			"k": "3000"
 		}
-	]
+	],
+	"hint": "Cuenta cuántos valores distintos de \"0\" tiene cada fila y quédate con las filas que tengan 3 o más."
 }

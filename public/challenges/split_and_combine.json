@@ -41,5 +41,6 @@
 			"name": "raymond",
 			"age": 65
 		}
-	]
+	],
+	"hint": "Agrupa por \"name\" y quédate con el valor mayor de \"age\" (así el -1 desaparece)."
 }

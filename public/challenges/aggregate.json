@@ -50,5 +50,6 @@
       "first job": "helicopter pilot",
       "total job": 2
     }
-  ]
+  ],
+  "hint": "Ordena por \"year\", agrupa por \"user\" y usa .agg() para quedarte con el primero y contar el total."
 }

@@ -40,11 +40,11 @@
 			"wages": "NA"
 		},
 		{
-			"user": "Jean-Fran\u00e7oise",
+			"user": "Jean-Françoise",
 			"wages": "6000"
 		},
 		{
-			"user": "M\u2019Rodz",
+			"user": "M’Rodz",
 			"wages": "1500"
 		}
 	],
@@ -79,5 +79,6 @@
 			"n": "2",
 			"mean_wages": "1000"
 		}
-	]
+	],
+	"hint": "Separa \"user\" por \"_\" para sacar el apellido, agrupa por él y usa .agg()."
 }

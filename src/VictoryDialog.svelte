@@ -38,16 +38,16 @@
   <div class="modal-box max-w-md">
     <div class="flex flex-col items-center ">
       <div>{@html CUP}</div>
-      <h1 class="mt-4 text-3xl font-bold text-white">¡Bien hecho!</h1>
+      <h1 class="mt-4 text-3xl font-bold text-white">¡Lo lograste! 🎉</h1>
 
       <div class="mt-2"><Rating {score} /></div>
 
-      <p class="mt-2 px-4 text-sm text-center">
-        Resolviste el reto usando {expressionCount} expresión(es).
+      <p class="mt-2 px-4 text-base text-center">
+        Resolviste el reto con {expressionCount} línea(s).
         <br />
 
         {#if score < 3}
-          Inténtalo de nuevo con menos líneas para ganar más estrellas.
+          ¡Muy bien! Si quieres más estrellas, prueba con menos líneas. ⭐
         {/if}
       </p>
     </div>

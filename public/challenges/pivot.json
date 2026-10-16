@@ -61,5 +61,6 @@
 			"strawberry": 0,
 			"tomatoe": 0
 		}
-	]
+	],
+	"hint": "Cuenta frutas por usuario:  pd.crosstab(df[\"user\"], df[\"fruit\"])"
 }
