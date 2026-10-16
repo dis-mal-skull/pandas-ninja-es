@@ -1,10 +1,6 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import Header from "./Header.svelte";
-  import ToolBar from "./ToolBar.svelte";
   import DataFrame from "./DataFrame.svelte";
-  import LogBox from "./LogBox.svelte";
-  import Badge from "./Badge.svelte";
 
   import CodeEditor from "./CodeEditor.svelte";
   import Grid from "./Grid.svelte";
@@ -13,7 +9,11 @@
   import Drawer from "./Drawer.svelte";
   import VictoryDialog from "./VictoryDialog.svelte";
   import LoadingDialog from "./LoadingDialog.svelte";
-  import Loading from "./Loading.svelte";
+
+  // Versión de la app inyectada por Vite (ver vite.config.ts)
+  declare const __APP_VERSION__: string;
+  const APP_VERSION =
+    typeof __APP_VERSION__ !== "undefined" ? __APP_VERSION__ : "dev";
 
   /** ======================
    *      Interface
@@ -45,15 +45,17 @@
   // List of challenges
   let challenges: Challenge[] = [];
 
-  // currenge challenge
-  let challenge: Challenge;
+  // current challenge
+  let challenge: Challenge | undefined = undefined;
 
   // current challenge details
-  let challengeDetail: ChallengeDetail;
+  let challengeDetail: ChallengeDetail | undefined = undefined;
 
-  // Index of current challenge
-  let challengeIndex: number;
-  $: {
+  // Index of current challenge (undefined until the list is loaded)
+  let challengeIndex: number | undefined = undefined;
+
+  // Reload the challenge detail whenever the index changes and the list is ready
+  $: if (challengeIndex !== undefined && challenges.length > 0) {
     loadChallengeDetail(challengeIndex);
   }
 
@@ -61,16 +63,16 @@
   let pyodide: any = null;
 
   // console output
-  let consoleOutput: string;
+  let consoleOutput: string = "";
 
   // codeEditor content
-  let code: string;
+  let code: string = "";
 
   // Display Loading modal box
   let loading: boolean = true;
 
   // Loading message
-  let loadingMessage: string = "Loading your Sensei";
+  let loadingMessage: string = "Cargando tu Sensei 🥷";
 
   // display Win modal box
   let won: boolean = false;
@@ -98,9 +100,8 @@
   // ------------------------------------------------------
   // Append text to console
   // ------------------------------------------------------
-
   function appendConsole(text: string): void {
-    consoleOutput = consoleOutput + "\n" + text;
+    consoleOutput = consoleOutput + (consoleOutput ? "\n" : "") + text;
   }
 
   // ------------------------------------------------------
@@ -114,8 +115,7 @@
   // Load all challenges from challenges.json
   // ------------------------------------------------------
   async function loadChallenges() {
-    console.log("Load challenges List ");
-    loadingMessage = "Loading Challenges";
+    loadingMessage = "Cargando retos";
 
     challenges = [];
     try {
@@ -126,17 +126,18 @@
       // get All rating
       challenges.map((x) => (x.rating = getRating(x.file)));
     } catch (error) {
-      console.error("Cannot load challenges.json");
+      console.error("No se pudo cargar challenges.json");
     }
   }
 
   // ------------------------------------------------------
   // Get a Challenge from index
   // ------------------------------------------------------
-  function getChallenge(index: number): Challenge {
-    if (index < challenges.length) {
+  function getChallenge(index: number): Challenge | undefined {
+    if (index >= 0 && index < challenges.length) {
       return challenges[index];
     }
+    return undefined;
   }
   // ------------------------------------------------------
   // set a Challenge from index
@@ -148,25 +149,23 @@
   // Load a Challenge detail from specific index
   // ------------------------------------------------------
   async function loadChallengeDetail(index: number) {
-    challenge = getChallenge(challengeIndex);
+    challenge = getChallenge(index);
     let file = challenge?.file;
 
     if (!file) {
-      console.error("no file specified");
-      throw Error("Cannot get challenge file " + file);
+      // Todavía no hay un reto seleccionado: no hacemos nada.
+      return;
     }
 
     try {
-      console.log("Load challenge details", file);
       let response = await fetch(`challenges/${file}`, { cache: "no-store" });
 
       challengeDetail = await response.json();
-      console.debug("response", challengeDetail);
 
       code = challengeDetail.placeholder ?? "";
       runCode();
     } catch (error) {
-      console.error("Cannot load challenge detail", file);
+      console.error("No se pudo cargar el reto", file);
     }
   }
 
@@ -175,7 +174,6 @@
   // ------------------------------------------------------
   function getRating(file: string): number {
     let value = localStorage.getItem(file) ?? "-1";
-    console.debug(file, "RATING", value);
     return parseInt(value);
   }
   // ------------------------------------------------------
@@ -184,7 +182,7 @@
   async function loadPython() {
     loading = true;
 
-    loadingMessage = "Loading Pyodide script ...";
+    loadingMessage = "Cargando Pyodide...";
 
     pyodide = await loadPyodide({
       stdout: (text: string) => appendConsole(text),
@@ -196,18 +194,14 @@
     sys.version
     `);
 
-    console.log(python_version);
     appendConsole(python_version);
 
     // Load Pandas
-    loadingMessage = "Loading Pandas";
+    loadingMessage = "Cargando Pandas";
     await pyodide.loadPackage(["pandas"]);
 
     // import pandas.. It takes times
     pyodide.runPython(`import pandas as pd `);
-
-    console.log("Pandas loaded");
-    appendConsole("Pandas Loaded");
   }
 
   // ------------------------------------------------------
@@ -232,6 +226,11 @@
       clearConsole();
       won = false;
       score = 0;
+
+      if (!challengeDetail) {
+        return;
+      }
+
       pyodide.globals.set("raw_input", challengeDetail.input);
 
       // build pre-code and post-code
@@ -247,7 +246,7 @@
 
       if (code.includes("DataFrame(") || code.includes("Series(")) {
         appendConsole(
-          "Creating a DataFrame or a Serie is forbidden.\nFind another way"
+          "No puedes crear un DataFrame ni una Series.\nBusca otra forma de resolverlo."
         );
         return;
       }
@@ -263,8 +262,6 @@
       if (expressionCount == 0 || expressionCount > 3) score = 0;
       else score = 4 - expressionCount;
 
-      console.debug("LINE NUMBER", expressionCount);
-
       computed_input = json_result.toJs({ dict_converter: Object.fromEntries });
       computed_input_str = json_result_str.toJs({
         dict_converter: Object.fromEntries,
@@ -274,7 +271,6 @@
       checkVictory();
     } catch (err) {
       let message = (err as Error).message;
-      console.debug(message);
       appendConsole(message);
     }
   }
@@ -284,19 +280,19 @@
   // ------------------------------------------------------
 
   function nextLevel() {
-    if (challengeIndex < challenges.length - 1) {
+    if (challengeIndex !== undefined && challengeIndex < challenges.length - 1) {
+      // El cambio de índice dispara la recarga del detalle (ver $: arriba)
       challengeIndex = challengeIndex + 1;
-      loadChallengeDetail(challengeIndex);
     }
   }
 
   // ------------------------------------------------------
   // Previous Level
   // ------------------------------------------------------
+
   function previousLevel() {
-    if (challengeIndex > 0) {
+    if (challengeIndex !== undefined && challengeIndex > 0) {
       challengeIndex = challengeIndex - 1;
-      loadChallengeDetail(challengeIndex);
     }
   }
 
@@ -304,17 +300,18 @@
   // Check victory
   // ------------------------------------------------------
   function checkVictory() {
-    console.debug("COMPUTED ", JSON.stringify(computed_input));
-    console.debug("EXPECTED ", JSON.stringify(challengeDetail.expected));
+    if (!challengeDetail) {
+      return;
+    }
 
     if (
       JSON.stringify(computed_input) == JSON.stringify(challengeDetail.expected)
     ) {
-      console.debug("WIN !!!!!!!!!!");
-
-      localStorage.setItem(challenge?.file, score.toString());
+      if (challenge) {
+        localStorage.setItem(challenge.file, score.toString());
+        challenge.rating = score;
+      }
       won = true;
-      challenge.rating = score;
     }
   }
 </script>
@@ -339,16 +336,15 @@
       title={challenge?.title}
       level={challenge?.level}
       rating={challenge?.rating}
-      index={challengeIndex}
-      {loading}
+      index={challengeIndex ?? 0}
     />
 
     <Grid>
       <CodeEditor slot="a" on:run={runCode} bind:code />
       <Console bind:code={consoleOutput} slot="b" />
-      <DataFrame title="Input Data" slot="c" data={computed_input_str} />
+      <DataFrame title="Datos de entrada" slot="c" data={computed_input_str} />
       <DataFrame
-        title="Expected Data"
+        title="Datos esperados"
         slot="d"
         data={challengeDetail?.expected}
       />
@@ -357,7 +353,7 @@
     <p
       class="font-mono text-xs text-right bg-base-300 pt-1  border-t-2 border-base-300 px-2"
     >
-      version {__APP_VERSION__}
+      versión {APP_VERSION}
     </p>
   </svelte:fragment>
 
@@ -366,17 +362,5 @@
   </svelte:fragment>
 </Drawer>
 
-<!-- 
-
-
-
-
-<Grid>
-  <CodeEditor slot="a" on:run={runCode} bind:code />
-  <Console bind:code={consoleOutput} slot="b" />
-  <DataFrame title="Input Data" slot="c" data={computed_input_str} />
-  <DataFrame title="Expected Data" slot="d" data={challengeDetail?.expected} />
-</Grid>
--->
 <style>
 </style>

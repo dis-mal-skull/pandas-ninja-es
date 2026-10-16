@@ -7,7 +7,7 @@
 </script>
 
 <div class="wrapper ">
-	<Split splitterSize={splitter_size}>
+	<Split splitterSize={splitter_size} initialPrimarySize="70%">
 		<svelte:fragment slot="primary">
 			<Split
 				horizontal
@@ -38,7 +38,6 @@
 
 		<svelte:fragment slot="splitter">
 			<DefaultSplitter
-				initialPrimarySize="70%"
 				color={splitter_color}
 				hoverColor={splitter_active_color}
 				dragColor={splitter_active_color}

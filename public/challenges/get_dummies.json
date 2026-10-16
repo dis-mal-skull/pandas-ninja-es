@@ -1,7 +1,7 @@
 {
-  "title": "get dummies",
+  "title": "Variables dummy",
   "author": "@dridk",
-  "placeholder": "# Convert categorical variable\n#into dummy variables\n\nprint(df) ",
+  "placeholder": "# Convierte la columna categórica `fruits` en variables dummy (one-hot):\n# una columna por categoría, con 0 o 1.\n#\n# Pista: pd.get_dummies(...)\n",
   "input": [
     {
       "fruits": "apple"

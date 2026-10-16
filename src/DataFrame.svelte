@@ -4,8 +4,6 @@
   export let title: string = "Noname";
   export let data = [];
 
-  let data_text: string = "sacha";
-
   $: headers = data.length > 0 ? Object.keys(data[0]) : [];
 
   //====================================
@@ -39,13 +37,10 @@
       <Clipboard
         text={ConvertToCSV(data)}
         let:copy
-        on:copy={() => {
-          console.log("copied");
-        }}
       >
         <div
           class="tooltip hover:tooltip-open tooltip-left z-10 tooltip-secondary"
-          data-tip="Copy to clipboard"
+          data-tip="Copiar al portapapeles"
         >
           <button on:click={copy} class="btn btn-sm btn-square btn-ghost">
             <svg style="width:16px;height:16px" viewBox="0 0 24 24">

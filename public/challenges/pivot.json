@@ -1,6 +1,6 @@
 {
-	"name": "pivot",
-	"placeholder": "#Create a matrix with fruit count per user",
+	"name": "Tabla dinámica",
+	"placeholder": "# Construye una tabla que muestre, para cada usuario,\n# cuántas frutas de cada tipo tiene.\n#\n# Pista: pd.crosstab(...) o df.pivot_table(..., aggfunc=\"size\")\n",
 	"author": "@dridk",
 	"input": [
 		{

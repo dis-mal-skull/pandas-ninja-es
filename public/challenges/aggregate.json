@@ -1,7 +1,7 @@
 {
-  "title": "aggregate",
+  "title": "Agregar",
   "author": "@dridk",
-  "placeholder": "# Get first job for each user",
+  "placeholder": "# Para cada usuario (`user`) calcula:\n# - `first job`: el trabajo del año más antiguo.\n# - `total job`: el número total de trabajos.\n#\n# Pista: ordena por `year`, agrupa por `user` con .agg({...}),\n# y usa \"first\" para el primero y \"count\" para el total.\n",
   "input": [
     {
       "user": "kevin",

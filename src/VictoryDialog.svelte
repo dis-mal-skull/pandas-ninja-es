@@ -38,24 +38,24 @@
   <div class="modal-box max-w-md">
     <div class="flex flex-col items-center ">
       <div>{@html CUP}</div>
-      <h1 class="mt-4 text-3xl font-bold text-white">Well Done!</h1>
+      <h1 class="mt-4 text-3xl font-bold text-white">¡Bien hecho!</h1>
 
       <div class="mt-2"><Rating {score} /></div>
 
       <p class="mt-2 px-4 text-sm text-center">
-        You complete the challenge using {expressionCount} expression.
+        Resolviste el reto usando {expressionCount} expresión(es).
         <br />
 
         {#if score < 3}
-          Try again with less code lines for more stars.
+          Inténtalo de nuevo con menos líneas para ganar más estrellas.
         {/if}
       </p>
     </div>
 
     <div class="modal-action">
-      <label for="my-modal-2" class="btn btn-secondary btn-sm">Try again</label>
+      <label for="my-modal-2" class="btn btn-secondary btn-sm">Reintentar</label>
       <button on:click={emit_next} class="btn btn-primary btn-sm"
-        >Next level</button
+        >Siguiente reto</button
       >
     </div>
   </div>

@@ -1,6 +1,6 @@
 {
-	"name": "prevalence",
-	"placeholder": "#filter users non 0 \n #in at leat 3 columns",
+	"name": "Prevalencia",
+	"placeholder": "# Quédate solo con los usuarios que tengan un valor distinto de \"0\"\n# en al menos 3 de las columnas x, y, z, h y k.\n#\n# Pista: compara cada columna con \"0\", suma las coincidencias por fila\n# y filtra las que lleguen a 3.\n",
 	"author": "@Lourdes",
 	"input": [
 		{

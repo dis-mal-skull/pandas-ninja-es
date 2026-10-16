@@ -5,17 +5,10 @@
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 
-  let code = "";
   export let title: string;
   export let level: string;
   export let rating: number;
   export let index: number;
-
-  function getRating(filename: string): number {
-    let value = localStorage.getItem(filename) ?? "-1";
-    console.debug("RATINGLA", value, filename);
-    return parseInt(value);
-  }
 
   function emit_left_clicked(event) {
     dispatch("left", {});
@@ -79,7 +72,7 @@
     </button>
 
     <button on:click={emit_menu_clicked} class="btn btn-primary"
-      >Challenge {index + 1}</button
+      >Reto {index + 1}</button
     >
 
     <button on:click={emit_right_clicked} class="btn btn-square btn-ghost ">

@@ -2,6 +2,7 @@
   import { AceEditor } from "svelte-ace";
   import "brace/mode/python";
   import "brace/theme/cobalt";
+  import "brace/ext/language_tools";
   import ToolBar from "./ToolBar.svelte";
   import { createEventDispatcher } from "svelte";
 
@@ -20,12 +21,12 @@
 
 <ToolBar>
   <div class="flex justify-between items-center h-full p-2">
-    <h2 class="flex">Code editor</h2>
+    <h2 class="flex">Editor de código</h2>
 
     <div class="mr-4 flex gap-1">
       <kbd class="kbd kbd-xs">Control</kbd>
       +
-      <kbd class="kbd kbd-xs">Return</kbd>
+      <kbd class="kbd kbd-xs">Enter</kbd>
     </div>
 
     <div>
@@ -33,15 +34,14 @@
         use:shortcut={{ control: true, code: "Enter" }}
         on:click={emit_run}
         class="btn btn-primary btn-sm "
-        >Run
-      </button>
+        >Ejecutar</button
+      >
     </div>
   </div>
 </ToolBar>
 
 <AceEditor
   width="100%"
-  on:commandKey={(obj) => console.log(obj.detail)}
   options={{
     showPrintMargin: false,
     showLineNumbers: true,
@@ -57,7 +57,7 @@
 />
 
 <style>
-  :global(.ace_content, .ace_scroller, .ace_gutter-layer, .ace_gutter, ace-cobalt) {
+  :global(.ace_content, .ace_scroller, .ace-gutter-layer, .ace_gutter, ace-cobalt) {
     background-color: hsl(var(--b1));
   }
 </style>

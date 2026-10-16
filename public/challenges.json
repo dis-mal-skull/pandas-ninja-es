@@ -1,87 +1,87 @@
 {
 	"data": [
 		{
-			"title": "Introduction",
+			"title": "Introducción",
 			"file": "introduction.json",
 			"level": "easy"
 		},
 		{
-			"title": "Square it",
+			"title": "El cuadrado",
 			"file": "square-it.json",
 			"level": "easy"
 		},
 		{
-			"title": "Sort it",
+			"title": "Ordenar",
 			"file": "sort-it.json",
 			"level": "easy"
 		},
 		{
-			"title": "Replace",
+			"title": "Reemplazar",
 			"file": "replace.json",
 			"level": "easy"
 		},
 		{
-			"title": "replace nan",
+			"title": "Rellenar vacíos",
 			"file": "replace-nan.json",
 			"level": "easy"
 		},
 		{
-			"title": "group mean",
+			"title": "Media por grupo",
 			"file": "group_mean.json",
 			"level": "easy"
 		},
 		{
-			"title": "Clip",
+			"title": "Recortar valores",
 			"file": "clip.json",
 			"level": "easy"
 		},
 		{
-			"title": "Split & expand",
+			"title": "Separar y expandir",
 			"file": "split-expand.json",
 			"level": "easy"
 		},
 		{
-			"title": "Explode",
+			"title": "Explotar filas",
 			"file": "explode.json",
 			"level": "medium"
 		},
 		{
-			"title": "Aggregate",
+			"title": "Agregar",
 			"file": "aggregate.json",
 			"level": "medium"
 		},
 		{
-			"title": "Sort date",
+			"title": "Ordenar por fecha",
 			"file": "sort-date.json",
 			"level": "medium"
 		},
 		{
-			"title": "Pivot",
+			"title": "Tabla dinámica",
 			"file": "pivot.json",
 			"level": "medium"
 		},
 		{
-			"title": "Prevalence",
+			"title": "Prevalencia",
 			"file": "prevalence.json",
 			"level": "medium"
 		},
 		{
-			"title": "Split and combine",
+			"title": "Separar y combinar",
 			"file": "split_and_combine.json",
 			"level": "hard"
 		},
 		{
-			"title": "Groups anonymisation",
+			"title": "Anonimizar grupos",
 			"file": "groups_anonymisation.json",
 			"level": "hard"
 		},
 		{
-			"title": "Reorder alpha num",
+			"title": "Reordenar",
 			"file": "reorder.json",
 			"level": "hard"
 		},
 		{
-			"title": "get dummies",
+			"title": "Variables dummy",
 			"file": "get_dummies.json",
 			"level": "hard"
 		}

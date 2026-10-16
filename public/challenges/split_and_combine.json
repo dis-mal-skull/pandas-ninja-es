@@ -1,6 +1,6 @@
 {
-	"name": "split and combine",
-	"placeholder": "# Split into 2 dataframe \n #and combine them to fill -1 values",
+	"name": "Separar y combinar",
+	"placeholder": "# Algunas filas tienen edad -1 (dato que falta).\n# Para cada nombre, deja una sola fila con su edad real y ordena por nombre.\n#\n# Pista: agrupa por `name` y quédate con el valor máximo de `age`\n# (el -1 desaparece si usas el máximo).\n",
 	"author": "@dridk",
 	"input": [
 		{

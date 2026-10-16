@@ -1,6 +1,6 @@
 {
-	"name": "groups anonymisation",
-	"placeholder": "#group families/ make anonym/\n#calculate n and mean wages",
+	"name": "Anonimizar grupos",
+	"placeholder": "# Agrupa a las personas por su \"familia\" (lo que va después de \"_\").\n# Anonimiza mostrando solo las iniciales del nombre y del apellido.\n# Calcula cuántas personas hay (`n`) y la media de `wages` (`mean_wages`).\n#\n# Pista: separa `user` con .str.split(\"_\"), agrupa por apellido y usa .agg(...).\n",
 	"author": "@Lourdes",
 	"input": [
 		{

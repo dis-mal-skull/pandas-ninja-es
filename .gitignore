@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Vercel
+.vercel
+
+# Variables de entorno / secretos
+.env
+.env.*
+*.pem
+

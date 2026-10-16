@@ -9,7 +9,7 @@
 <input type="checkbox" id="my-modal" class="modal-toggle" checked={loading} />
 <div class="modal backdrop-blur-sm backdrop-grayscale shadow-2xl ">
   <div class="modal-box max-w-xs flex flex-col items-center gap-4 ">
-    <h1 class="font-medium text-2xl animate-pulse">Please wait</h1>
+    <h1 class="font-medium text-2xl animate-pulse">Espera un momento</h1>
     <Loading />
 
     <span class="text-sm font-medium text-center">
